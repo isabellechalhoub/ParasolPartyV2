@@ -154,7 +154,8 @@ public class PlayerController : MonoBehaviour
 		} 
 		else if ((Input.GetKeyDown (KeyCode.Space) && !_controller.isGrounded) || floatin) 
 		{
-            _animator.setAnimation("Deploy");
+			if (!floatin)
+            	_animator.setAnimation("Deploy");
             velocity.y = -2;
 			floatin = true;
 		}
