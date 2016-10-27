@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
     private bool swinging = false;
     private bool pause = false;
     private bool wind;
+    public GameObject deathMusic;
+    private AudioSource clip3;
+    private AudioSource clip2;
+    public GameObject levelMusic;
     #endregion
 
     void Start ()
@@ -49,7 +53,11 @@ public class PlayerController : MonoBehaviour
         pausePanel.SetActive(false);
 		currHealth = health;
         _animator.setAnimation("Fall");
-	}
+        clip3 = deathMusic.GetComponent<AudioSource>();
+        clip3.Stop();
+        clip3.time = 5.0f;
+        clip2 = levelMusic.GetComponent<AudioSource>();
+    }
 
 	void Update ()
     {
@@ -272,6 +280,8 @@ public class PlayerController : MonoBehaviour
 		//_animator.setAnimation("Death");
 		playerControl = false;
 		gameOverPanel.SetActive(true);
+        clip2.Stop();
+        clip3.Play();
 	}
 
 	// Stops the camera follow and reduces health
@@ -282,6 +292,8 @@ public class PlayerController : MonoBehaviour
 		//healthBar.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 32);
 		gameCamera.GetComponent<CameraFollow2D>().stopCameraFollow();
 		gameOverPanel.SetActive(true);
+        clip2.Stop();
+        clip3.Play();
 	}
 #endregion
 }
