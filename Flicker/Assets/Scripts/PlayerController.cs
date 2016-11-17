@@ -92,8 +92,8 @@ public class PlayerController : MonoBehaviour
 		Vector3 velocity = _controller.velocity;
 		velocity.x = 0;
 
-		#region moving platform parenting
-		if (_controller.isGrounded && _controller.ground != null && (_controller.ground.tag.Equals("MovingPlatform") || _controller.ground.tag.Equals("Wind"))) 
+        #region moving platform parenting
+        if (_controller.isGrounded && _controller.ground != null && (_controller.ground.tag.Equals("MovingPlatform") || _controller.ground.tag.Equals("Wind") || _controller.ground.tag.Equals("Rotating Platform")) ) 
 		{
 			this.transform.parent = _controller.ground.transform;
             if (_controller.ground.tag.Equals("Wind"))
@@ -121,9 +121,14 @@ public class PlayerController : MonoBehaviour
 				_animator.setFacing ("Left");
 			}
 		}
+        else if (Input.GetKeyUp(KeyCode.LeftArrow) && !shieldin && !swinging)
+        {
+            velocity.x = 0;
+            _animator.setAnimation("Idle");
+        }
 
-		// Right arrow key
-		else if (Input.GetAxis ("Horizontal") > 0 && !shieldin && !swinging) 
+        // Right arrow key
+        else if (Input.GetAxis ("Horizontal") > 0 && !shieldin && !swinging) 
 		{
 			velocity.x = walkSpeed;
 			if (_controller.isGrounded && !floatin) 
@@ -132,6 +137,11 @@ public class PlayerController : MonoBehaviour
 				_animator.setFacing ("Right");
 			}
 		}
+        else if (Input.GetKeyUp(KeyCode.RightArrow) && !shieldin && !swinging)
+        {
+            velocity.x = 0;
+            _animator.setAnimation("Idle");
+        }
 		#endregion
 
 		#region idle
@@ -140,7 +150,8 @@ public class PlayerController : MonoBehaviour
 		{
 			if (_controller.isGrounded && currHealth != 0 && !shieldin && !swinging && !floatin) 
 			{
-				_animator.setAnimation("Idle");
+                velocity.x = 0;
+                _animator.setAnimation("Idle");
 			}
 		}
 		#endregion
